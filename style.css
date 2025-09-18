@@ -35,7 +35,7 @@
     padding: 1rem;
 }
 
-.overslideren {
+.button-header {
     display: flex;
     justify-content: space-between;
     padding: 1.1rem;
@@ -74,6 +74,10 @@ p {
     box-shadow: light-dark(black, rgb(247, 254, 213)) 1px 1px 7px; 
 }
 
+.movie-img:hover {
+    scale: 1.1;
+}
+
 .now-showing .svg {
     width: 12px;
     height: 12px;
@@ -83,6 +87,7 @@ p {
     display: flex;
     overflow-x: scroll;
     gap: 1rem;
+    padding: 10px;
 }
 
 .thumbnail {
@@ -93,7 +98,20 @@ p {
     margin-bottom: 10px;
 }
 
-@media screen and (max-width: 500px){
+.more {
+    border: solid #AAA9B1 1px;
+    color: #AAA9B1;
+    background-color: white;
+    border-radius: 10px;
+    padding: 2px;
+}
+
+.popular-img {
+    width: 6.25rem;
+    height: 9rem;
+}
+
+@media screen and (max-width: 500px) {
     #slider::-webkit-scrollbar {
         display: none;
     }

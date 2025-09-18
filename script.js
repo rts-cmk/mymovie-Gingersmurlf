@@ -5,6 +5,18 @@ const img = "https://image.tmdb.org/t/p/w500/"
 
 let isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
+async function details(id) {
+    return fetch(`${URL}/${id}`, {
+        headers: {
+            'Authorization': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMzg0NWUzYjBiODExZWNkYTkxNWY1ZTA4YjU3ZGZmMSIsIm5iZiI6MTc1ODA5MDE2Mi4xODUsInN1YiI6IjY4Y2E1M2IyNGFkNDE1ZTc5ZjY4MzNiMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.pCyxQ3LgTaz1tbRPY52X6SMpoEFVUzqSTOSURpAYEyI`
+        }
+    })
+        .then((svar) => svar.json())
+        .then((data) => handleData(data))
+
+
+}
+
 async function ting() {
     return fetch(`${URL}/now_playing`, {
         headers: {
@@ -19,9 +31,9 @@ async function ting() {
             first = /*html */
                 `
         <section class="now-showing">
-            <div class="overslideren">
+            <div class="button-header">
                 <h2>Now Showing</h2>
-                <button>See more</button>
+                <button class="more">See more</button>
             </div>
             <div id="slider">${data.results.map((hjælp) => {
                     return /*html*/`
@@ -37,7 +49,8 @@ async function ting() {
                </div>
 
                `
-                }).join("")}</div>
+                }).join("")}
+            </div>
         </section>
     `
             wrapper.insertAdjacentHTML("beforeend", first)
@@ -48,10 +61,49 @@ async function ting() {
 
 ting()
 
+async function tong() {
+    return fetch(`${URL}/popular`, {
+        headers: {
+            'Authorization': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMzg0NWUzYjBiODExZWNkYTkxNWY1ZTA4YjU3ZGZmMSIsIm5iZiI6MTc1ODA5MDE2Mi4xODUsInN1YiI6IjY4Y2E1M2IyNGFkNDE1ZTc5ZjY4MzNiMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.pCyxQ3LgTaz1tbRPY52X6SMpoEFVUzqSTOSURpAYEyI`
+        }
+    })
+        .then((svar) => svar.json())
+        .then((data) => {
+            let second
+
+            second = /*html */ `
+        <section class="popular">
+            <div class="button-header">
+                <h2>Popular</h2>
+                <button class="more">See more</button>
+            </div>
+            <div class="popular-movie"> ${data.results.map((den) => {
+                return /*html*/`
+                    <figure><img class="popular-img" src="${img}/${den.poster_path}"></figure>
+                    <div class="popular-des">
+                        <h3>${den.title}</h3>
+                        <p>
+                           <img class="svg" src="/img/star.svg">
+                            ${den.vote_average.toFixed(1)}/10 <span class="imdb">IMDB</span> 
+                        </p>
+                        <div> 
+                            
+                        </div>
+                    </div>
+                `
+            }).join("")}}
+            
+            </div>
+        </section>
+            `
+            wrapper.insertAdjacentHTML("beforeend", second)
+        })
+}
+
+tong()
 
 if (isDarkMode)
     darkModeSwtich.checked = true
-
 
 function test() {
     isDarkMode = !isDarkMode
