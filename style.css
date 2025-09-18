@@ -57,10 +57,19 @@ h3 {
     font-family: "Mulish", sans-serif;
 }
 
+h4 {
+    font-size: 8px;
+    font-family: "Mulish", sans-serif;
+}
+
 p {
     font-size: 12px;
     font-family: "Mulish", sans-serif;
     color: #9C9C9C;
+}
+
+ul {
+    list-style: none;
 }
 
 .imdb {
@@ -75,7 +84,7 @@ p {
 }
 
 .movie-img:hover {
-    scale: 1.1;
+    scale: 1.05;
 }
 
 .now-showing .svg {
@@ -102,13 +111,45 @@ p {
     border: solid #AAA9B1 1px;
     color: #AAA9B1;
     background-color: white;
-    border-radius: 10px;
-    padding: 2px;
+    border-radius: 15px;
+    padding: 5px;
+}
+
+.popular-movie {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 .popular-img {
-    width: 6.25rem;
-    height: 9rem;
+    width: 5.3125rem;
+    height: 8rem;
+    border-radius: 9px;
+}
+
+.popular-container {
+    display: flex;
+    width: 19.0625rem;
+    height: 7.5rem;
+}
+
+.popular-des {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 8px;
+}
+
+.popular-container ul {
+    display: flex;
+    gap: 8px;
+}
+
+.popular-container li {
+    background-color: #DBE3FF;
+    border-radius: 1.25rem;
+    padding: 4px;
+    color: #88A4E8;
 }
 
 @media screen and (max-width: 500px) {

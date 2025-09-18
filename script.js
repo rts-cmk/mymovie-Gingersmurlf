@@ -1,117 +1,161 @@
-const URL = "https://api.themoviedb.org/3/movie"
-const wrapper = document.getElementById("wrapper")
-const darkModeSwtich = document.querySelector("#darkModeSwitch");
-const img = "https://image.tmdb.org/t/p/w500/"
+const wrapper = document.getElementById("wrapper");
+const URL = "https://api.themoviedb.org/3/movie";
+const img = "https://image.tmdb.org/t/p/w500/";
+const darkModeSwitch = document.getElementById("darkModeSwitch");
+const body = document.body;
 
-let isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-async function details(id) {
-    return fetch(`${URL}/${id}`, {
-        headers: {
-            'Authorization': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMzg0NWUzYjBiODExZWNkYTkxNWY1ZTA4YjU3ZGZmMSIsIm5iZiI6MTc1ODA5MDE2Mi4xODUsInN1YiI6IjY4Y2E1M2IyNGFkNDE1ZTc5ZjY4MzNiMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.pCyxQ3LgTaz1tbRPY52X6SMpoEFVUzqSTOSURpAYEyI`
-        }
-    })
-        .then((svar) => svar.json())
-        .then((data) => handleData(data))
-
-
+function fix_runtime(minutes) {
+    const hrs = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hrs}h ${mins}m`;
 }
 
-async function ting() {
-    return fetch(`${URL}/now_playing`, {
-        headers: {
-            'Authorization': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMzg0NWUzYjBiODExZWNkYTkxNWY1ZTA4YjU3ZGZmMSIsIm5iZiI6MTc1ODA5MDE2Mi4xODUsInN1YiI6IjY4Y2E1M2IyNGFkNDE1ZTc5ZjY4MzNiMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.pCyxQ3LgTaz1tbRPY52X6SMpoEFVUzqSTOSURpAYEyI`
-        }
-    })
-        .then((svar) => svar.json())
-        .then((data) => {
+async function getDetails(id) {
+  return fetch(`${URL}/${id}`, {
+    headers: {
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMzg0NWUzYjBiODExZWNkYTkxNWY1ZTA4YjU3ZGZmMSIsIm5iZiI6MTc1ODA5MDE2Mi4xODUsInN1YiI6IjY4Y2E1M2IyNGFkNDE1ZTc5ZjY4MzNiMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.pCyxQ3LgTaz1tbRPY52X6SMpoEFVUzqSTOSURpAYEyI`,
+    },
+  }).then((res) => res.json());
+}
 
-            let first
+async function getNowPlaying() {
+  return fetch(`${URL}/now_playing`, {
+    headers: {
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMzg0NWUzYjBiODExZWNkYTkxNWY1ZTA4YjU3ZGZmMSIsIm5iZiI6MTc1ODA5MDE2Mi4xODUsInN1YiI6IjY4Y2E1M2IyNGFkNDE1ZTc5ZjY4MzNiMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.pCyxQ3LgTaz1tbRPY52X6SMpoEFVUzqSTOSURpAYEyI`,
+    },
+  })
+    .then((svar) => svar.json())
+    .then((data) => {
+      let first;
 
-            first = /*html */
-                `
+      first =
+        /*html */
+        `
         <section class="now-showing">
             <div class="button-header">
                 <h2>Now Showing</h2>
                 <button class="more">See more</button>
             </div>
-            <div id="slider">${data.results.map((hjælp) => {
-                    return /*html*/`
+            <div id="slider">${data.results
+              .map((den) => {
+                return /*html*/ `
                <div class="thumbscrew">
-                <img class="movie-img" src=${img}${hjælp.poster_path}>
+                <img class="movie-img" src=${img}${den.poster_path}>
                 <div class="thumbnail">
-                        <h3>${hjælp.title}</h3>
+                        <h3>${den.title}</h3>
                         <p>
                         <img class="svg" src="/img/star.svg">
-                            ${hjælp.vote_average.toFixed(1)}/10 <span class="imdb">IMDB</span>
+                            ${den.vote_average.toFixed(
+                              1
+                            )}/10 <span class="imdb">IMDB</span>
                         </p>
                 </div>
                </div>
 
-               `
-                }).join("")}
+               `;
+              })
+              .join("")}
             </div>
         </section>
-    `
-            wrapper.insertAdjacentHTML("beforeend", first)
-        })
-
-
+    `;
+      wrapper.insertAdjacentHTML("beforeend", first);
+    });
 }
 
-ting()
+getNowPlaying();
 
-async function tong() {
-    return fetch(`${URL}/popular`, {
-        headers: {
-            'Authorization': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMzg0NWUzYjBiODExZWNkYTkxNWY1ZTA4YjU3ZGZmMSIsIm5iZiI6MTc1ODA5MDE2Mi4xODUsInN1YiI6IjY4Y2E1M2IyNGFkNDE1ZTc5ZjY4MzNiMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.pCyxQ3LgTaz1tbRPY52X6SMpoEFVUzqSTOSURpAYEyI`
+async function getPopular() {
+  return fetch(`${URL}/popular`, {
+    headers: {
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMzg0NWUzYjBiODExZWNkYTkxNWY1ZTA4YjU3ZGZmMSIsIm5iZiI6MTc1ODA5MDE2Mi4xODUsInN1YiI6IjY4Y2E1M2IyNGFkNDE1ZTc5ZjY4MzNiMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.pCyxQ3LgTaz1tbRPY52X6SMpoEFVUzqSTOSURpAYEyI`,
+    },
+  })
+    .then((svar) => svar.json())
+    .then(async (data) => {
+      const genres = await fetch(
+        "https://api.themoviedb.org/3/genre/movie/list",
+        {
+          headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMzg0NWUzYjBiODExZWNkYTkxNWY1ZTA4YjU3ZGZmMSIsIm5iZiI6MTc1ODA5MDE2Mi4xODUsInN1YiI6IjY4Y2E1M2IyNGFkNDE1ZTc5ZjY4MzNiMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.pCyxQ3LgTaz1tbRPY52X6SMpoEFVUzqSTOSURpAYEyI`,
+          },
         }
-    })
-        .then((svar) => svar.json())
-        .then((data) => {
-            let second
+      ).then((res) => res.json());
+      
+        // FÅ ALLE DETAILS HER!
+        for (let movie of data.results) {
+            const details = await getDetails(movie.id);
+            movie.runtime = fix_runtime(details.runtime);
+            movie.genres = movie.genre_ids.map((id) => {
+                return genres.genres.find((genre) => genre.id === id);
+            });
+            // tilføje flere keys fra details objektet
+        }
 
-            second = /*html */ `
+      let second;
+
+      second = /*html */ `
         <section class="popular">
             <div class="button-header">
                 <h2>Popular</h2>
                 <button class="more">See more</button>
             </div>
-            <div class="popular-movie"> ${data.results.map((den) => {
-                return /*html*/`
-                    <figure><img class="popular-img" src="${img}/${den.poster_path}"></figure>
+            <div class="popular-movie"> ${data.results
+              .map((den) => {
+                return /*html*/ `
+                <div class="popular-container">
+                    <figure><img class="popular-img" src="${img}/${
+                  den.poster_path
+                }"></figure>
                     <div class="popular-des">
                         <h3>${den.title}</h3>
                         <p>
                            <img class="svg" src="/img/star.svg">
-                            ${den.vote_average.toFixed(1)}/10 <span class="imdb">IMDB</span> 
+                            ${den.vote_average.toFixed(
+                              1
+                            )}/10 <span class="imdb">IMDB</span> 
                         </p>
                         <div> 
-                            
+                            <ul>
+                                ${den.genres
+                                  .map(
+                                    (genre) => `<li><h4>${genre.name}</h4></li>`
+                                  )
+                                  .join("")}
+                            </ul>
                         </div>
+                        <p>
+                            ${den.runtime}
+                        </p>
                     </div>
-                `
-            }).join("")}}
+                </div>
+                `;
+              })
+              .join("")}
             
             </div>
         </section>
-            `
-            wrapper.insertAdjacentHTML("beforeend", second)
-        })
+            `;
+      wrapper.insertAdjacentHTML("beforeend", second);
+    });
 }
 
-tong()
+getPopular();
 
-if (isDarkMode)
-    darkModeSwtich.checked = true
-
-function test() {
-    isDarkMode = !isDarkMode
-    if (isDarkMode) {
-        document.body.classList.remove("light-mode")
-        document.body.classList.add("dark-mode")
-        return;
-    }
-    document.body.classList.remove("dark-mode")
-    document.body.classList.add("light-mode")
+if (localStorage.getItem("theme") === "dark") {
+  body.classList.add("dark-mode");
+  darkModeSwitch.checked = true;
+} else {
+  body.classList.add("light-mode");
 }
+
+darkModeSwitch.addEventListener("change", () => {
+  if (darkModeSwitch.checked) {
+    body.classList.remove("light-mode");
+    body.classList.add("dark-mode");
+    localStorage.setItem("theme", "dark");
+    return;
+  }
+  body.classList.remove("dark-mode");
+  body.classList.add("light-mode");
+  localStorage.setItem("theme", "light");
+});
