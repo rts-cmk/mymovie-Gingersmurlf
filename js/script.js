@@ -25,7 +25,8 @@ async function getNowPlaying() {
     },
   })
     .then((svar) => svar.json())
-    .then((data) => {
+    .then(async (data) => {
+
       let first;
 
       first =
@@ -40,7 +41,7 @@ async function getNowPlaying() {
               .map((den) => {
                 return /*html*/ `
                <div class="thumbscrew">
-                <img class="movie-img" src=${img}${den.poster_path}>
+                <a href="/pages/details.html?${URL}/${den.id}"><img class="movie-img" src=${img}${den.poster_path}></a>
                 <div class="thumbnail">
                         <h3>${den.title}</h3>
                         <p>
@@ -140,22 +141,3 @@ async function getPopular() {
 }
 
 getPopular();
-
-if (localStorage.getItem("theme") === "dark") {
-  body.classList.add("dark-mode");
-  darkModeSwitch.checked = true;
-} else {
-  body.classList.add("light-mode");
-}
-
-darkModeSwitch.addEventListener("change", () => {
-  if (darkModeSwitch.checked) {
-    body.classList.remove("light-mode");
-    body.classList.add("dark-mode");
-    localStorage.setItem("theme", "dark");
-    return;
-  }
-  body.classList.remove("dark-mode");
-  body.classList.add("light-mode");
-  localStorage.setItem("theme", "light");
-});

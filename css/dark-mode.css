@@ -9,6 +9,10 @@ body {
   transition: background-color 0.3s ease;
 }
 
+.lucide {
+  color: light-dark(black, white);
+}
+
 .dark-mode {
   color-scheme: dark;
 }
