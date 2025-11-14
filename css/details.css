@@ -1,0 +1,44 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    color-scheme: light dark;
+}
+
+.wrapper {
+    max-width: 50rem;
+    margin: 0 auto;
+}
+
+.header {
+    height: 15rem;
+}
+
+h1 {
+    font-size: 16px;
+    font-family: "Merriweather", serif;
+}
+
+h2 {
+    font-size: 16px;
+    font-family: "Merriweather", serif;
+}
+
+h3 {
+    font-size: 14px;
+    font-family: "Mulish", sans-serif;
+}
+
+h4 {
+    font-size: 8px;
+    font-family: "Mulish", sans-serif;
+}
+
+p {
+    font-size: 12px;
+    font-family: "Mulish", sans-serif;
+    color: #9C9C9C;
+}
